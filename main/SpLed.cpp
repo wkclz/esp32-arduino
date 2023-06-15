@@ -1,7 +1,8 @@
 #include "Arduino.h"
-#include "ShrimpBlink.h"
+#include "SpLed.h"
 
-ShrimpBlink::ShrimpBlink(int pin, long on, long off) {
+// 初始化 LED
+SpLed::SpLed(int pin, long on, long off) {
   ledPin = pin;
   pinMode(ledPin, OUTPUT);
   onTime = on;
@@ -10,7 +11,8 @@ ShrimpBlink::ShrimpBlink(int pin, long on, long off) {
   previousMillis = 0;
 }
 
-void ShrimpBlink::update() {
+// 更新 LED 状态
+void SpLed::update() {
   unsigned long currentMillis = millis();
   if(ledState == HIGH && (currentMillis - previousMillis >= onTime)) {
     ledState = LOW;

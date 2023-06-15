@@ -1,11 +1,14 @@
+#ifndef SpLed_H
+#define SpLed_H
+
 #include "Arduino.h"
 
-class ShrimpBlink {
+class SpLed {
 
   public:
     // 定义 LED 引脚，on 时长, off 时长
-    ShrimpBlink(int pin, long on, long off);
-    // 更新 Blink 状态
+    SpLed(int pin, long on, long off);
+    // 更新 LED 状态
     void update();
 
   private:
@@ -21,3 +24,5 @@ class ShrimpBlink {
     unsigned long previousMillis; 
 
 };
+
+#endif
