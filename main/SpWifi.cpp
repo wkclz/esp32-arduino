@@ -1,0 +1,48 @@
+#include "Arduino.h"
+#include "SpWifi.h"
+
+#include <WiFi.h>
+
+// 初始化 wifi
+SpWifi::SpWifi() {
+}
+
+// 连接 WIFI
+void SpWifi::connect() {
+  Serial.println();
+  Serial.println("******************************************************");
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+  int times = 0;
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+    times ++;
+    if (times > 10) {
+      Serial.println();
+      Serial.println("WiFi connecting retry 5 times, it will be retry after 1 minute!");
+      return;
+    }
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+
+// 检查并连接 WIFI
+void SpWifi::checkAndConnect() {
+  unsigned long currentMillis = millis();
+  if((currentMillis - previousMillis < checkInterval)) {
+    return;
+  }
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.print("wifi is not connected --->");
+    connect();
+  }
+}
+
