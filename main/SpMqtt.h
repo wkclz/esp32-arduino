@@ -9,6 +9,7 @@ class SpMqtt {
 
   public:
     SpMqtt();
+    void addCallback(void (*callBackPtr)(char*, byte*, unsigned int));
     void checkMsg();
 
   private:

@@ -3,15 +3,6 @@
 #include "SpMqtt.h"
 
 
-void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-  }
-  Serial.println();
-}
 
 // 初始化 MQTT
 SpMqtt::SpMqtt() {
@@ -19,7 +10,12 @@ SpMqtt::SpMqtt() {
   client = PubSubClient(espClient);
   client.setKeepAlive(120);
   client.setServer(mqtt_server, mqtt_port);
-  client.setCallback(callback);
+  // client.setCallback(callback);
+}
+
+void SpMqtt::addCallback(void (*callBackPtr)(char*, byte*, unsigned int)) {
+  client.setCallback(callBackPtr);
+  Serial.println("MQTT added callback");
 }
 
 
