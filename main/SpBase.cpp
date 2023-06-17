@@ -1,10 +1,14 @@
 #include "Arduino.h"
 #include "SpBase.h"
 
+#include <time.h>
+#include <sntp.h>
+
 // 初始化 base
 SpBase::SpBase() {
+  uint64_t mac = ESP.getEfuseMac();
   for(int i=0; i<17; i=i+8) {
-    chipId |= ((ESP.getEfuseMac() >> (40 - i)) & 0xff) << i;
+    chipId |= ((mac >> (40 - i)) & 0xff) << i;
   }
 }
 
@@ -45,4 +49,21 @@ void SpBase::print() {
   Serial.printf("固件MD5: %u\n", ESP.getSketchMD5());
   Serial.printf("固件区域剩余大小: %u Byte\n", ESP.getFreeSketchSpace());
   Serial.println();
+}
+
+// Callback function (get's called when time adjusts via NTP)
+void timeavailable(struct timeval *t) {
+  Serial.println("Got time adjustment from NTP!");
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)) {
+    Serial.println("No time available (yet)");
+    return;
+  }
+  Serial.println(&timeinfo, "%Y-%m-%d %H:%M:%S");
+}
+
+void SpBase::setTime() {
+  sntp_set_time_sync_notification_cb(timeavailable);
+  sntp_servermode_dhcp(1);
+  configTime(gmtOffsetSec, daylightOffsetSec, ntpServer1, ntpServer2);
 }

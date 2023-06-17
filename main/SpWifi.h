@@ -2,6 +2,7 @@
 #define SpWifi_H
 
 #include "Arduino.h"
+#include "SpBase.h"
 
 class SpWifi {
 
@@ -18,6 +19,10 @@ class SpWifi {
     unsigned long checkInterval = 60000;
     String ssid     = "my_ssid";
     String password = "my_password";
+
+    // 是否初次连接 WIFI, 若是，需要同步时间
+    SpBase base;
+    boolean firstConnect = true;
 
 };
 

@@ -30,6 +30,12 @@ void SpWifi::connect() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
+  // 初次连接成功 WIFI, 网络对时
+  if (firstConnect) {
+    firstConnect = false;
+    base.setTime();
+  }
 }
 
 
