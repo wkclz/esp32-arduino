@@ -1,18 +1,22 @@
 #ifndef SpMqtt_H
 #define SpMqtt_H
 
-#include "Arduino.h"
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
+
+#include "Arduino.h"
+#include "SpBase.h"
 
 class SpMqtt {
 
   public:
     SpMqtt();
-    void addCallback(void (*callBackPtr)(char*, byte*, unsigned int));
+    void init(void (*callBackPtr)(char*, byte*, unsigned int));
     void checkMsg();
 
   private:
+    SpBase base;
+
     WiFiClientSecure espClient;
     PubSubClient client;
 
@@ -24,12 +28,16 @@ class SpMqtt {
     const char* mqtt_username = "xxxx";
     const char* mqtt_password = "xxxx";
 
-    const char* mqtt_client_id = "esp32/sn";
-    const char* mqtt_push = "device/esp32/sn";
-    const char* mqtt_subscribe = "client/esp32/sn";
-    // 上一次状态变更的时间
-    unsigned long previousMillis;
-    unsigned long checkInterval = 10;
+    const char* mqtt_client_id = "esp32/";
+    const char* mqtt_push = "device/esp32/";
+    const char* mqtt_subscribe = "client/esp32/";
+
+    // 初次连接 MQTT 不延时就会无限重启【3000 ms】
+    unsigned long previousMillisConnect = -2000;
+    unsigned long checkIntervalConnect = 5000;
+
+    unsigned long previousMillisMsg = 0;
+    unsigned long checkIntervalMsg = 100;
 
     const char* ca_cert= \
       "-----BEGIN CERTIFICATE-----\n" \

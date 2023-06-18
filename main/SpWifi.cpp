@@ -22,7 +22,7 @@ void SpWifi::connect() {
     times ++;
     if (times > 10) {
       Serial.println();
-      Serial.println("WiFi connecting retry 5 times, it will be retry after 1 minute!");
+      Serial.println("WiFi connecting for 5 seconds, it will be retry after 1 minute!");
       return;
     }
   }
@@ -45,6 +45,7 @@ void SpWifi::checkAndConnect() {
   if((currentMillis - previousMillis < checkInterval)) {
     return;
   }
+  previousMillis = currentMillis;
 
   if (WiFi.status() != WL_CONNECTED) {
     Serial.print("wifi is not connected --->");

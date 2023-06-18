@@ -13,9 +13,9 @@ class SpBase {
     // 同步时间
     void setTime();
 
-  private:
     // 芯片ID
     uint32_t chipId = 0;
+  private:
 
     // 时间同步
     const char* ntpServer1 = (char*)"pool.ntp.org";

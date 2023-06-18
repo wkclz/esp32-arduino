@@ -17,7 +17,7 @@ void setup() {
   base.print();
   // 连接 WIFI
   wifi.connect();
-  mqtt.addCallback(callback);
+  mqtt.init(callback);
 }
 
 void loop() {
