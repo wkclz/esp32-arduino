@@ -85,9 +85,8 @@ void SpMqtt::checkMsg() {
       if(currentMillis - previousMillisConnect >= checkIntervalConnect) {
         previousMillisConnect = currentMillis;
         reconnect();
-      } {
-        return;
       }
+      return;
     }
     previousMillisMsg = currentMillis;
     client.loop();
