@@ -12,6 +12,8 @@ class SpBase {
     void print();
     // 同步时间
     void setTime();
+    // 获取时间
+    void getTime();
 
     // 芯片ID
     uint32_t chipId = 0;

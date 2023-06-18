@@ -21,7 +21,6 @@ class SpMqtt {
     PubSubClient client;
 
     void reconnect();
-    // void callback(char* topic, byte* payload, unsigned int length);
 
     const char* mqtt_server = "example.emqxsl.cn";
     const int mqtt_port = 8883;

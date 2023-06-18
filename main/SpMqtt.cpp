@@ -45,6 +45,9 @@ void SpMqtt::reconnect() {
       // 连接成功，推送消息
       StaticJsonDocument<200> doc;
       doc["msg"] = "mqtt connect success!";
+
+      base.getTime();
+
       String output;
       serializeJson(doc, output);
       client.publish(mqttPush, output.c_str());

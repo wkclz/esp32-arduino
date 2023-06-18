@@ -12,12 +12,14 @@ SpMqtt mqtt;
 void setup() {
   Serial.begin(115200);
   while(!Serial){delay(100);}
+  Serial.println("esp32 starting & setup.....");
 
   // 打印基础信息
-  base.print();
+  // base.print();
   // 连接 WIFI
   wifi.connect();
   mqtt.init(callback);
+  Serial.println("esp32 setuped, will looping...");
 }
 
 void loop() {
