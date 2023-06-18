@@ -32,8 +32,8 @@ class SpMqtt {
     const char* mqtt_push = "device/esp32/";
     const char* mqtt_subscribe = "client/esp32/";
 
-    // 初次连接 MQTT 不延时就会无限重启【3000 ms】
-    unsigned long previousMillisConnect = -2000;
+    // 初次连接 MQTT 不延时就会无限重启【5000 ms】
+    unsigned long previousMillisConnect = 0;
     unsigned long checkIntervalConnect = 5000;
 
     unsigned long previousMillisMsg = 0;

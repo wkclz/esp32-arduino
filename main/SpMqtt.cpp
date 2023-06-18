@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <ArduinoJson.h>
 #include "SpMqtt.h"
 
 
@@ -42,7 +43,11 @@ void SpMqtt::reconnect() {
       Serial.println("connected: 连接成功");
       client.subscribe(mqttSubscribe);
       // 连接成功，推送消息
-      client.publish(mqttPush, "reconnected: mqtt connect success!");
+      StaticJsonDocument<200> doc;
+      doc["msg"] = "mqtt connect success!";
+      String output;
+      serializeJson(doc, output);
+      client.publish(mqttPush, output.c_str());
     } else {
       int state = client.state();
       Serial.print("failed, rc=");
