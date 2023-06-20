@@ -16,6 +16,15 @@ void SpMqtt::init(void (*callBackPtr)(char*, byte*, unsigned int)) {
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callBackPtr);
   Serial.println("MQTT added callback");
+
+  uint32_t chipId = base.chipId;
+  sprintf(mqtt_client_id, "%s%d", mqtt_client_id_prefix, chipId);
+  sprintf(mqtt_push, "%s%d", mqtt_push_prefix, chipId);
+  sprintf(mqtt_subscribe, "%s%d", mqtt_subscribe_prefix, chipId);
+
+  Serial.print("mqtt_client_id: "); Serial.println(mqtt_client_id);
+  Serial.print("mqtt_push: "); Serial.println(mqtt_push);
+  Serial.print("mqtt_subscribe: "); Serial.println(mqtt_subscribe);
 }
 
 // 连接/重连 MQTT
@@ -26,31 +35,16 @@ void SpMqtt::reconnect() {
   }
 
   if (!client.connected()) {
-    uint32_t chipId = base.chipId;
-
-    char mqttClientId[32];
-    char mqttPush[32];
-    char mqttSubscribe[32];
-    sprintf(mqttClientId, "%s%d", mqtt_client_id, chipId);
-    sprintf(mqttPush, "%s%d", mqtt_push, chipId);
-    sprintf(mqttSubscribe, "%s%d", mqtt_subscribe, chipId);
-    Serial.print("mqttClientId: "); Serial.println(mqttClientId);
-    Serial.print("mqttPush: "); Serial.println(mqttPush);
-    Serial.print("mqttSubscribe: "); Serial.println(mqttSubscribe);
-
     Serial.print("Attempting MQTT connection...");
-    if (client.connect(mqttClientId, mqtt_username, mqtt_password)) {
+    if (client.connect(mqtt_client_id, mqtt_username, mqtt_password)) {
       Serial.println("connected: 连接成功");
-      client.subscribe(mqttSubscribe);
+      client.subscribe(mqtt_subscribe);
       // 连接成功，推送消息
       StaticJsonDocument<200> doc;
       doc["msg"] = "mqtt connect success!";
 
       base.getTime();
-
-      String output;
-      serializeJson(doc, output);
-      client.publish(mqttPush, output.c_str());
+      sendMsg(doc);
     } else {
       int state = client.state();
       Serial.print("failed, rc=");
@@ -97,3 +91,8 @@ void SpMqtt::checkMsg() {
 
 }
 
+void SpMqtt::sendMsg(StaticJsonDocument<4096> doc) {
+    String output;
+    serializeJson(doc, output);
+    client.publish(mqtt_push, output.c_str());
+}

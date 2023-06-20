@@ -1,6 +1,7 @@
 #ifndef SpMqtt_H
 #define SpMqtt_H
 
+#include <ArduinoJson.h>
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
 
@@ -13,6 +14,7 @@ class SpMqtt {
     SpMqtt();
     void init(void (*callBackPtr)(char*, byte*, unsigned int));
     void checkMsg();
+    void sendMsg(StaticJsonDocument<4096> doc);
 
   private:
     SpBase base;
@@ -27,9 +29,12 @@ class SpMqtt {
     const char* mqtt_username = "xxxx";
     const char* mqtt_password = "xxxx";
 
-    const char* mqtt_client_id = "esp32/";
-    const char* mqtt_push = "device/esp32/";
-    const char* mqtt_subscribe = "client/esp32/";
+    const char* mqtt_client_id_prefix = "esp32/";
+    const char* mqtt_push_prefix = "device/esp32/";
+    const char* mqtt_subscribe_prefix = "client/esp32/";
+    char mqtt_client_id[32];
+    char mqtt_push[32];
+    char mqtt_subscribe[32];
 
     // 初次连接 MQTT 不延时就会无限重启【5000 ms】
     unsigned long previousMillisConnect = 0;
