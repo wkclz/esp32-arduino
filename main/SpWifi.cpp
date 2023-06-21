@@ -12,9 +12,9 @@ void SpWifi::connect() {
   Serial.println();
   Serial.println("******************************************************");
   Serial.print("Connecting to ");
-  Serial.println(ssid);
+  Serial.println(config.ssid);
 
-  WiFi.begin(ssid, password);
+  WiFi.begin(config.ssid, config.password);
   int times = 0;
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);

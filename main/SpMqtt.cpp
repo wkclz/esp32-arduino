@@ -13,7 +13,7 @@ void SpMqtt::init(void (*callBackPtr)(char*, byte*, unsigned int)) {
   espClient.setCACert(ca_cert);
   client = PubSubClient(espClient);
   client.setKeepAlive(120);
-  client.setServer(mqtt_server, mqtt_port);
+  client.setServer(config.mqtt_server, config.mqtt_port);
   client.setCallback(callBackPtr);
   Serial.println("MQTT added callback");
 
@@ -36,7 +36,7 @@ void SpMqtt::reconnect() {
 
   if (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
-    if (client.connect(mqtt_client_id, mqtt_username, mqtt_password)) {
+    if (client.connect(mqtt_client_id, config.mqtt_username, config.mqtt_password)) {
       Serial.println("connected: 连接成功");
       client.subscribe(mqtt_subscribe);
       // 连接成功，推送消息

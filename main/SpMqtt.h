@@ -6,6 +6,7 @@
 #include <WiFiClientSecure.h>
 
 #include "Arduino.h"
+#include "Config.h"
 #include "SpBase.h"
 
 class SpMqtt {
@@ -17,17 +18,13 @@ class SpMqtt {
     void sendMsg(StaticJsonDocument<4096> doc);
 
   private:
+    Config config;
     SpBase base;
 
     WiFiClientSecure espClient;
     PubSubClient client;
 
     void reconnect();
-
-    const char* mqtt_server = "example.emqxsl.cn";
-    const int mqtt_port = 8883;
-    const char* mqtt_username = "xxxx";
-    const char* mqtt_password = "xxxx";
 
     const char* mqtt_client_id_prefix = "esp32/";
     const char* mqtt_push_prefix = "device/esp32/";
