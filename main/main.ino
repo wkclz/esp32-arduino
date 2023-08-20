@@ -55,7 +55,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     // 无法识别时，发送错误消息
     Serial.print("unknown op: ");
     Serial.print(op);
-    mqtt.sendErr("unknown op: " + op);
+    Serial.print("  ");
+
+    StaticJsonDocument<200> doc;
+    doc["msg"] = "unknown op!";
+    mqtt.sendMsg(doc);
   }
 
   /*

@@ -16,7 +16,6 @@ class SpMqtt {
     void init(void (*callBackPtr)(char*, byte*, unsigned int));
     void checkMsg();
     void sendMsg(StaticJsonDocument<4096> doc);
-    void sendErr(String err);
 
   private:
     Config config;

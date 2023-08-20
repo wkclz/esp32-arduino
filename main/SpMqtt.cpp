@@ -95,10 +95,3 @@ void SpMqtt::sendMsg(StaticJsonDocument<4096> doc) {
     serializeJson(doc, output);
     client.publish(mqtt_push, output.c_str());
 }
-
-
-void SpMqtt::sendErr(String err) {
-    StaticJsonDocument<4096> doc;
-    doc["errMsg"] = err;
-    sendMsg(doc);
-}
