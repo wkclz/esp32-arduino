@@ -2,12 +2,14 @@
 #include "SpWifi.h"
 #include "SpLed.h"
 #include "SpMqtt.h"
+#include "SpServo.h"
 
 SpBase base;
 SpWifi wifi;
 SpLed led1(15, 100, 100);
 SpLed led2(2, 1000, 1000);
 SpMqtt mqtt;
+SpServo servo(17,8,50,8);
 
 void setup() {
   Serial.begin(115200);
@@ -28,6 +30,7 @@ void loop() {
   led1.update();
   led2.update();
   mqtt.checkMsg();
+  // servo.update(12);
 }
 
 
