@@ -34,7 +34,7 @@ void SpWifi::connect() {
   // 初次连接成功 WIFI, 网络对时
   if (firstConnect) {
     firstConnect = false;
-    base.setTime();
+    base.syncTime();
   }
 }
 

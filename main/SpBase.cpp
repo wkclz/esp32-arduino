@@ -62,21 +62,8 @@ void timeavailable(struct timeval *t) {
   Serial.println(&timeinfo, "%Y-%m-%d %H:%M:%S");
 }
 
-void SpBase::setTime() {
+void SpBase::syncTime() {
   sntp_set_time_sync_notification_cb(timeavailable);
   sntp_servermode_dhcp(1);
   configTime(gmtOffsetSec, daylightOffsetSec, ntpServer1, ntpServer2);
-}
-
-void SpBase::getTime() {
-  struct tm timeinfo;
-  Serial.println("********************time********************");
-  /*
-  if (getLocalTime(&timeinfo)) {
-    Serial.println(&timeinfo);
-    Serial.println(getLocalTime(&timeinfo));
-  }
-  */
-  Serial.println("********************time********************");
-
 }

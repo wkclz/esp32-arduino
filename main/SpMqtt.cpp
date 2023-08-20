@@ -43,13 +43,12 @@ void SpMqtt::reconnect() {
       StaticJsonDocument<200> doc;
       doc["msg"] = "mqtt connect success!";
 
-      base.getTime();
       sendMsg(doc);
     } else {
       int state = client.state();
       Serial.print("failed, rc=");
       Serial.print(client.state());
-      Serial.print(" try again in 0.5 seconds: ");
+      Serial.print(" try again in 5 seconds: ");
       if (state == -2) {
         Serial.println("网络异常，将自动重试...");
       }
