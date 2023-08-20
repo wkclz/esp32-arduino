@@ -1,3 +1,4 @@
+#include <ArduinoJson.h>
 #include "SpBase.h"
 #include "SpWifi.h"
 #include "SpLed.h"
@@ -33,7 +34,6 @@ void loop() {
   // servo.update(12);
 }
 
-
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
@@ -41,6 +41,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   String payloadStr = String((char*)payload, length);
   Serial.print(payloadStr);
+
+  DynamicJsonDocument data(1024);
+  deserializeJson(data, payloadStr);
+
+  String op = data["op"];
+  if (op == "servo") {
+    long degree = data[String("degree")];
+    Serial.print("servo --> ");
+    Serial.print(degree);
+    servo.update(degree);
+  } else {
+    // 无法识别时，发送错误消息
+    Serial.print("unknown op: ");
+    Serial.print(op);
+    mqtt.sendErr("unknown op: " + op);
+  }
+
   /*
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
