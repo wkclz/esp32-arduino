@@ -53,4 +53,16 @@
 
 ## SpMqtt
 
-### 
+### init 初始化 MQTT
+
+> 启动后init 一次
+
+
+### checkMsg 检查 MQTT 消息
+
+> 若 MQTT 未连接，或断开，将重连，若已经连接，将 loop 消息
+
+### sendMsg
+
+> 发送消息
+

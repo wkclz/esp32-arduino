@@ -38,8 +38,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
+
+  String payloadStr = String((char*)payload, length);
+  Serial.print(payloadStr);
+  /*
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
+  */
   Serial.println();
 }
