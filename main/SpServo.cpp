@@ -20,7 +20,7 @@ void pwm_set_duty(unsigned char chanel, unsigned int duty) {
   ledcWrite(chanel,duty);
 }
 
-// 初始化 LED
+// 初始化 PWM
 SpServo::SpServo(unsigned char pin,unsigned char chanel,unsigned char freq,unsigned char resolution) {
 
   Serial.println("init servo start.....");

@@ -8,16 +8,9 @@ class SpStepMotor {
   public:
     // 初始化电机
     SpStepMotor(int pina, int pinb, int pinc, int pind);
-
+    // 设置速度
     void setSpeed(int speed);
-
-    /********************************************************************
-    * 函 数 名       : sendPulse
-    * 函数功能       : 输出一个数据给ULN2003从而实现向步进电机发送一个脉冲
-    * 输    入       : step：指定步进序号，可选值0~7
-                      dir：方向选择,1：顺时针,0：逆时针
-    * 输    出       : 无
-    ********************************************************************/
+    // 发送消息
     void sendPulse();
 
   private:
@@ -34,13 +27,10 @@ class SpStepMotor {
 
     // 当前 step
     int currentStep = 0;
-
     // 1 正向，0逆向
     int currentDir = 1;
-
     // 当前速度
     int currentSpeed = 0;
-
     // 上一次状态变更的时间
     unsigned long previousMillis;
 

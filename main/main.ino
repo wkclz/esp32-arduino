@@ -4,13 +4,19 @@
 #include "SpLed.h"
 #include "SpMqtt.h"
 #include "SpServo.h"
+#include "SpStepMotor.h"
 
 SpBase base;
 SpWifi wifi;
+// pin, on, off
 SpLed led1(15, 100, 100);
+// pin, on, off
 SpLed led2(2, 1000, 1000);
 SpMqtt mqtt;
-SpServo servo(17,8,50,8);
+// pin, chanel,freq,resolution
+SpServo servo(17, 8, 50, 8);
+// pina, pinb, pinc, pind
+SpStepMotor stepMotor(0, 4, 18, 19);
 
 void setup() {
   Serial.begin(115200);
@@ -32,6 +38,7 @@ void loop() {
   led2.update();
   mqtt.checkMsg();
   // servo.update(12);
+  stepMotor.sendPulse();
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -51,6 +58,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("servo --> ");
     Serial.print(degree);
     servo.update(degree);
+  } else if (op == "stepMotor") {
+    long speed = data[String("speed")];
+    Serial.print("speed --> ");
+    Serial.print(speed);
+    stepMotor.setSpeed(speed);
   } else {
     // 无法识别时，发送错误消息
     Serial.print("unknown op: ");

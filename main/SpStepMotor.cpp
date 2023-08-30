@@ -3,17 +3,13 @@
 
 // 初始化电机
 SpStepMotor::SpStepMotor(int pina, int pinb, int pinc, int pind) {
-
   ina_pin = pina;
   inb_pin = pinb;
   inc_pin = pinc;
   ind_pin = pind;
-
-  // previousMillis = 0;
 }
 
-
-SpStepMotor::setSpeed(int speed) {
+void SpStepMotor::setSpeed(int speed) {
   if (speed < -10) {
     speed = -10;
   }
@@ -29,16 +25,14 @@ SpStepMotor::setSpeed(int speed) {
     currentSpeed = speed;
     currentDir = 1;
   }
+
+  Serial.print("currentDir --> ");
+  Serial.print(currentDir);
+  Serial.print("currentSpeed --> ");
+  Serial.print(currentSpeed);
+  Serial.println("");
 }
 
-
-/*******************************************************************************
-* 函 数 名       : step_motor_28BYJ48_send_pulse
-* 函数功能       : 输出一个数据给ULN2003从而实现向步进电机发送一个脉冲
-* 输    入       : step：指定步进序号，可选值0~7
-                  dir：方向选择,1：顺时针,0：逆时针
-* 输    出       : 无
-*******************************************************************************/
 void SpStepMotor::sendPulse() {
 
   unsigned long currentMillis = millis();
@@ -56,16 +50,21 @@ void SpStepMotor::sendPulse() {
   if (currentDir == 1) {
     currentStep = currentStep + 1;
     if (currentStep == 8) {
-      currentStep == 0;
+      currentStep = 0;
     }
   }
   // 逆向
   if (currentDir == 0) {
     currentStep = currentStep - 1;
     if (currentStep == -1) {
-      currentStep == 7;
+      currentStep = 7;
     }
   }
+
+
+  Serial.print("currentStep --> ");
+  Serial.print(currentStep);
+  Serial.println("");
 
   // 8个节拍控制：A->AB->B->BC->C->CD->D->DA
   switch(currentStep) {
