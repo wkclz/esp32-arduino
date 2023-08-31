@@ -7,7 +7,7 @@ class SpStepMotor {
 
   public:
     // 初始化电机
-    SpStepMotor(int pina, int pinb, int pinc, int pind);
+    SpStepMotor(char pina, char pinb, char pinc, char pind);
     // 设置速度
     void setSpeed(int speed);
     // 发送消息
@@ -16,10 +16,10 @@ class SpStepMotor {
   private:
 
     // 定义步进电机控制管脚
-    int ina_pin; //   15
-    int inb_pin; //   2
-    int inc_pin; //   0
-    int ind_pin; //   4
+    char ina_pin; //   15
+    char inb_pin; //   2
+    char inc_pin; //   0
+    char ind_pin; //   4
 
     // 定义步进电机速度，需要转换为时差，驱动时差才是速度
     int maxSpeed = 100;

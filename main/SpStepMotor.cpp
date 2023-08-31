@@ -2,11 +2,16 @@
 #include "SpStepMotor.h"
 
 // 初始化电机
-SpStepMotor::SpStepMotor(int pina, int pinb, int pinc, int pind) {
+SpStepMotor::SpStepMotor(char pina, char pinb, char pinc, char pind) {
   ina_pin = pina;
   inb_pin = pinb;
   inc_pin = pinc;
   ind_pin = pind;
+  // 设置引脚为输出模式
+  pinMode(ina_pin, OUTPUT);
+  pinMode(inb_pin, OUTPUT);
+  pinMode(inc_pin, OUTPUT);
+  pinMode(ind_pin, OUTPUT);
 }
 
 void SpStepMotor::setSpeed(int speed) {
