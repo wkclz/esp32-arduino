@@ -13,7 +13,7 @@ void SpStepMotor::setSpeed(int speed) {
   if (speed < -10) {
     speed = -10;
   }
-  if (speed > 1000) {
+  if (speed > 100) {
     speed = 100;
   }
   // 小于 0 时为逆向
@@ -36,38 +36,34 @@ void SpStepMotor::setSpeed(int speed) {
 void SpStepMotor::sendPulse() {
 
   unsigned long currentMillis = millis();
-  unsigned long checkInterval = 100 - currentSpeed;
+  unsigned long checkInterval = 101 - currentSpeed;
   if((currentMillis - previousMillis < checkInterval)) {
     return;
   }
   previousMillis = currentMillis;
-  // 速度为0， 不转动
-  if (checkInterval >= maxSpeed) {
+  // 速度为0， 检查周期大于 100， 不转动
+  if (checkInterval > maxSpeed) {
     return;
   }
 
-  // 正向
-  if (currentDir == 1) {
-    currentStep = currentStep + 1;
-    if (currentStep == 8) {
-      currentStep = 0;
-    }
+  // 位置变动
+  currentStep = currentStep + 1;
+  if (currentStep == 8) {
+    currentStep = 0;
   }
+
+  unsigned char temp = currentStep;
   // 逆向
   if (currentDir == 0) {
-    currentStep = currentStep - 1;
-    if (currentStep == -1) {
-      currentStep = 7;
-    }
+    temp = 7 - temp;
   }
 
-
-  Serial.print("currentStep --> ");
-  Serial.print(currentStep);
+  Serial.print("setp --> ");
+  Serial.print(temp);
   Serial.println("");
 
   // 8个节拍控制：A->AB->B->BC->C->CD->D->DA
-  switch(currentStep) {
+  switch(temp) {
     case 0: digitalWrite(ina_pin,1);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
     case 1: digitalWrite(ina_pin,1);digitalWrite(inb_pin,1);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
     case 2: digitalWrite(ina_pin,0);digitalWrite(inb_pin,1);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
@@ -76,7 +72,6 @@ void SpStepMotor::sendPulse() {
     case 5: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,1);digitalWrite(ind_pin,1);break;
     case 6: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,1);break;
     case 7: digitalWrite(ina_pin,1);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,1);break;
-    // 停止相序
-    default: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
+    default: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;//停止相序 
   }
 }

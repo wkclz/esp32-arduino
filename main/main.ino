@@ -9,14 +9,14 @@
 SpBase base;
 SpWifi wifi;
 // pin, on, off
-SpLed led1(15, 100, 100);
+SpLed led1(18, 100, 100);
 // pin, on, off
-SpLed led2(2, 1000, 1000);
+SpLed led2(19, 1000, 1000);
 SpMqtt mqtt;
 // pin, chanel,freq,resolution
 SpServo servo(17, 8, 50, 8);
 // pina, pinb, pinc, pind
-SpStepMotor stepMotor(0, 4, 18, 19);
+SpStepMotor stepMotor(15, 12, 0, 4);
 
 void setup() {
   Serial.begin(115200);
@@ -37,7 +37,7 @@ void loop() {
   led1.update();
   led2.update();
   mqtt.checkMsg();
-  // servo.update(12);
+  servo.update(12);
   stepMotor.sendPulse();
 }
 

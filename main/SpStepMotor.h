@@ -25,12 +25,13 @@ class SpStepMotor {
     int maxSpeed = 100;
     int minSpeed = -10;
 
-    // 当前 step
-    int currentStep = 0;
-    // 1 正向，0逆向
+    // 1正向，0逆向
     int currentDir = 1;
     // 当前速度
     int currentSpeed = 0;
+    // 当前 step
+    unsigned char currentStep = 0;
+
     // 上一次状态变更的时间
     unsigned long previousMillis;
 
