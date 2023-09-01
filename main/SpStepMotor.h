@@ -16,13 +16,13 @@ class SpStepMotor {
   private:
 
     // 定义步进电机控制管脚
-    char ina_pin; //   15
-    char inb_pin; //   2
-    char inc_pin; //   0
-    char ind_pin; //   4
+    char pa; //   15
+    char pb; //   2
+    char pc; //   0
+    char pd; //   4
 
     // 定义步进电机速度，需要转换为时差，驱动时差才是速度
-    int maxSpeed = 100;
+    int maxSpeed = 10;
     int minSpeed = -10;
 
     // 1正向，0逆向

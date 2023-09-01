@@ -29,6 +29,8 @@ void setup() {
   wifi.connect();
   mqtt.init(callback);
   Serial.println("esp32 setuped, will looping...");
+  // 初始化位置
+  servo.update(0);
 }
 
 void loop() {
@@ -37,7 +39,6 @@ void loop() {
   led1.update();
   led2.update();
   mqtt.checkMsg();
-  servo.update(12);
   stepMotor.sendPulse();
 }
 

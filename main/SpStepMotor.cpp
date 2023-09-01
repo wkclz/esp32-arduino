@@ -3,23 +3,23 @@
 
 // 初始化电机
 SpStepMotor::SpStepMotor(char pina, char pinb, char pinc, char pind) {
-  ina_pin = pina;
-  inb_pin = pinb;
-  inc_pin = pinc;
-  ind_pin = pind;
+  pa = pina;
+  pb = pinb;
+  pc = pinc;
+  pd = pind;
   // 设置引脚为输出模式
-  pinMode(ina_pin, OUTPUT);
-  pinMode(inb_pin, OUTPUT);
-  pinMode(inc_pin, OUTPUT);
-  pinMode(ind_pin, OUTPUT);
+  pinMode(pa, OUTPUT);
+  pinMode(pb, OUTPUT);
+  pinMode(pc, OUTPUT);
+  pinMode(pd, OUTPUT);
 }
 
 void SpStepMotor::setSpeed(int speed) {
   if (speed < -10) {
     speed = -10;
   }
-  if (speed > 100) {
-    speed = 100;
+  if (speed > 10) {
+    speed = 10;
   }
   // 小于 0 时为逆向
   if (speed < 0) {
@@ -41,7 +41,7 @@ void SpStepMotor::setSpeed(int speed) {
 void SpStepMotor::sendPulse() {
 
   unsigned long currentMillis = millis();
-  unsigned long checkInterval = 101 - currentSpeed;
+  unsigned long checkInterval = 11 - currentSpeed;
   if((currentMillis - previousMillis < checkInterval)) {
     return;
   }
@@ -69,14 +69,14 @@ void SpStepMotor::sendPulse() {
 
   // 8个节拍控制：A->AB->B->BC->C->CD->D->DA
   switch(temp) {
-    case 0: digitalWrite(ina_pin,1);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
-    case 1: digitalWrite(ina_pin,1);digitalWrite(inb_pin,1);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
-    case 2: digitalWrite(ina_pin,0);digitalWrite(inb_pin,1);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;
-    case 3: digitalWrite(ina_pin,0);digitalWrite(inb_pin,1);digitalWrite(inc_pin,1);digitalWrite(ind_pin,0);break;
-    case 4: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,1);digitalWrite(ind_pin,0);break;
-    case 5: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,1);digitalWrite(ind_pin,1);break;
-    case 6: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,1);break;
-    case 7: digitalWrite(ina_pin,1);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,1);break;
-    default: digitalWrite(ina_pin,0);digitalWrite(inb_pin,0);digitalWrite(inc_pin,0);digitalWrite(ind_pin,0);break;//停止相序 
+    case 0: digitalWrite(pa,1);digitalWrite(pb,0);digitalWrite(pc,0);digitalWrite(pd,0);break;
+    case 1: digitalWrite(pa,1);digitalWrite(pb,1);digitalWrite(pc,0);digitalWrite(pd,0);break;
+    case 2: digitalWrite(pa,0);digitalWrite(pb,1);digitalWrite(pc,0);digitalWrite(pd,0);break;
+    case 3: digitalWrite(pa,0);digitalWrite(pb,1);digitalWrite(pc,1);digitalWrite(pd,0);break;
+    case 4: digitalWrite(pa,0);digitalWrite(pb,0);digitalWrite(pc,1);digitalWrite(pd,0);break;
+    case 5: digitalWrite(pa,0);digitalWrite(pb,0);digitalWrite(pc,1);digitalWrite(pd,1);break;
+    case 6: digitalWrite(pa,0);digitalWrite(pb,0);digitalWrite(pc,0);digitalWrite(pd,1);break;
+    case 7: digitalWrite(pa,1);digitalWrite(pb,0);digitalWrite(pc,0);digitalWrite(pd,1);break;
+    default: digitalWrite(pa,0);digitalWrite(pb,0);digitalWrite(pc,0);digitalWrite(pd,0);break;//停止相序
   }
 }
