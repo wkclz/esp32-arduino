@@ -42,7 +42,7 @@ void SpWifi::connect() {
 // 检查并连接 WIFI
 void SpWifi::checkAndConnect() {
   unsigned long currentMillis = millis();
-  if((currentMillis - previousMillis < checkInterval)) {
+  if((currentMillis - previousMillis < interval)) {
     return;
   }
   previousMillis = currentMillis;

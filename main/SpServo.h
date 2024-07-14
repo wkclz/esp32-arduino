@@ -31,7 +31,7 @@ class SpServo {
     // 上一次状态变更的时间
     unsigned long previousMillis;
     // 检查周期
-    unsigned long checkInterval = 2000;
+    unsigned long interval = 2000;
 };
 
 #endif

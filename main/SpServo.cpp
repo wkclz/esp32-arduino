@@ -41,7 +41,7 @@ SpServo::SpServo(unsigned char pin,unsigned char chanel,unsigned char freq,unsig
 // 更新位置
 void SpServo::update(unsigned char degree) {
   unsigned long currentMillis = millis();
-  if((currentMillis - previousMillis < checkInterval)) {
+  if((currentMillis - previousMillis < interval)) {
     return;
   }
   previousMillis = currentMillis;

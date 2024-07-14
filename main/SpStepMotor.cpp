@@ -41,8 +41,8 @@ void SpStepMotor::setSpeed(int speed) {
 void SpStepMotor::sendPulse() {
 
   unsigned long currentMillis = millis();
-  unsigned long checkInterval = 11 - currentSpeed;
-  if((currentMillis - previousMillis < checkInterval)) {
+  unsigned long interval = 11 - currentSpeed;
+  if((currentMillis - previousMillis < interval)) {
     return;
   }
   previousMillis = currentMillis;
